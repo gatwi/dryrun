@@ -1,14 +1,14 @@
 // To connect with your mongoDB database
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/', {
-	dbName: 'yourDB-name',
+import { connect, Schema, model } from 'mongoose';
+connect('mongodb://localhost:27017/', {
+	dbName: 'moriarty',
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 }, err => err ? console.log(err) :
 	console.log('Connected to yourDB-name database'));
 
 // Schema for users of app
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
 	name: {
 		type: String,
 		required: true,
@@ -23,15 +23,15 @@ const UserSchema = new mongoose.Schema({
 		default: Date.now,
 	},
 });
-const User = mongoose.model('users', UserSchema);
+const User = model('users', UserSchema);
 User.createIndexes();
 
 // For backend and express
-const express = require('express');
+import express, { json } from 'express';
 const app = express();
-const cors = require("cors");
+import cors from "cors";
 console.log("App listen at port 5000");
-app.use(express.json());
+app.use(json());
 app.use(cors());
 app.get("/", (req, resp) => {
 
